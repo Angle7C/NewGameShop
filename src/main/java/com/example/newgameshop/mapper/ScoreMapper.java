@@ -1,6 +1,8 @@
 package com.example.newgameshop.mapper;
 
-import com.gameshop.entity.Score;
+
+
+import com.example.newgameshop.entity.Score;
 
 import java.util.List;
 

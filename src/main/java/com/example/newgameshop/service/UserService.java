@@ -1,6 +1,7 @@
 package com.example.newgameshop.service;
 
-import com.gameshop.entity.User;
+
+import com.example.newgameshop.entity.User;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;

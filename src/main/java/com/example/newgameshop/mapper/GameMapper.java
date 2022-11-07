@@ -1,6 +1,8 @@
 package com.example.newgameshop.mapper;
 
-import com.gameshop.entity.Game;
+
+
+import com.example.newgameshop.entity.Game;
 
 import java.util.List;
 

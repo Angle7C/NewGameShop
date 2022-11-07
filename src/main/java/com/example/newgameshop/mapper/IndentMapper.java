@@ -1,6 +1,8 @@
 package com.example.newgameshop.mapper;
 
-import com.gameshop.entity.Indent;
+
+
+import com.example.newgameshop.entity.Indent;
 
 import java.util.List;
 
