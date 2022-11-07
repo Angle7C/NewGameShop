@@ -1,14 +1,16 @@
 package com.example.newgameshop.service;
 
-import com.gameshop.entity.Indent;
+
+
+import com.example.newgameshop.entity.Indent;
 
 import java.util.List;
 
 public interface IndentService {
-    public Indent findOrder(Integer id);
-    public List<Indent> findUserId(Integer id);
-    public void addIndent(Indent indent);
-    public void deleteIndent(Indent indent);
-    public void updateIndent(Indent indent);
-    public List<Indent> identPage(Integer size,Integer page,Integer userId);
+    default Indent findOrder(Integer id){return null;}
+    default List<Indent> findUserId(Integer id){return null;}
+    default Boolean addIndent(Indent indent){return false;}
+    default Boolean deleteIndent(Indent indent){return false;}
+    default Boolean updateIndent(Indent indent){return false;}
+    default List<Indent> identPage(Integer size,Integer page,Integer userId){return null;}
 }

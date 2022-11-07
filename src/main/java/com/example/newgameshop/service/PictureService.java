@@ -1,6 +1,8 @@
 package com.example.newgameshop.service;
 
-import com.gameshop.entity.Picture;
+
+
+import com.example.newgameshop.entity.Picture;
 
 import java.util.List;
 

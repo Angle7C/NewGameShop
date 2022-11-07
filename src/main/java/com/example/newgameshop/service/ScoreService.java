@@ -1,13 +1,15 @@
 package com.example.newgameshop.service;
 
-import com.gameshop.entity.Score;
+
+
+import com.example.newgameshop.entity.Score;
 
 import java.util.List;
 
 public interface ScoreService {
-    public List<Score> findScoreGame(Integer id);
-    public Score findScoreOnly(Integer userId,Integer gameId);
-    public void addScore(Score score);
-    public void updateScore(Score score);
-    public void deleteGameId(Integer gameId);
+    default List<Score> findScoreGame(Integer id){return null;}
+    default Score findScoreOnly(Integer userId,Integer gameId){return null;}
+    default Boolean addScore(Score score){return false;}
+    default Boolean updateScore(Score score){return false;}
+    default Boolean deleteGameId(Integer gameId){return false;}
 }
