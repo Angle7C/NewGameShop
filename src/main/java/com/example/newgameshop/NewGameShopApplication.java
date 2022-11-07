@@ -1,11 +1,14 @@
 package com.example.newgameshop;
 
+import com.github.pagehelper.PageInterceptor;
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Properties;
 
 @SpringBootApplication
 public class NewGameShopApplication {
@@ -33,5 +36,17 @@ public class NewGameShopApplication {
                 .endpoint(endpoint)
                 .credentials(accessKey,secretKey)
                 .build();
+    }
+    @Bean
+    public PageInterceptor pageHelper() {
+        PageInterceptor pageInterceptor = new PageInterceptor();
+        Properties properties = new Properties();
+        properties.setProperty("offsetAsPageNum", "true");
+        properties.setProperty("rowBoundsWithCount", "true");
+        properties.setProperty("reasonable", "true");
+        properties.setProperty("helperDialect", "mysql");
+        pageInterceptor.setProperties(properties);
+        return pageInterceptor;
+        //aaa
     }
 }

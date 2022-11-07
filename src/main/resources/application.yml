@@ -8,4 +8,7 @@ spring:
     url: jdbc:mysql://124.221.237.233:3306/gameshop?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
     username: chen
     password: 123456
+  redis:
+    host: @redis.host@
+    database: @redis.database@
 
