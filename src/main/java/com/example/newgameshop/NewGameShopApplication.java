@@ -2,6 +2,7 @@ package com.example.newgameshop;
 
 import com.github.pagehelper.PageInterceptor;
 import io.minio.MinioClient;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,6 +12,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import java.util.Properties;
 
 @SpringBootApplication
+@MapperScan(basePackages = "com.example.newgameshop.mapper")
 public class NewGameShopApplication {
     @Value("${minio.endpoint}")
     private String endpoint;

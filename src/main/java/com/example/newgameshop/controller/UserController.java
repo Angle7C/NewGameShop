@@ -20,8 +20,7 @@ import java.util.*;
 public class UserController {
     private UserService userService;
     private RedisService redisService;
-
-
+    private RegisteredEmailUtil registeredEmailUtil;
     @PostMapping("/login/{username}/{password}")
     public JsonResult login(@PathVariable String email, @PathVariable String password,HttpSession session){
         User user=userService.findEmail(email);
@@ -38,7 +37,7 @@ public class UserController {
         if(userService.findEmail(email)!=null){
             return new JsonResult(200,"邮箱已使用");
         }else {
-            if(RegisteredEmailUtil.registerCode(email)){
+            if(registeredEmailUtil.registerCode(email)){
                 return new JsonResult("SUCCESS");
             }else {
                 return new JsonResult(200,"Fail");

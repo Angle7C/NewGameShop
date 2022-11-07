@@ -2,6 +2,7 @@ package com.example.newgameshop.utils;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +14,9 @@ import java.util.concurrent.TimeUnit;
 @Getter
 public class RedisUtil {
     @Resource
-    private static StringRedisTemplate redis;
-    public static void setValue(String key, String value, long times, TimeUnit unit){
+    private  StringRedisTemplate redis;
+
+    public  void setValue(String key, String value, long times, TimeUnit unit){
         if(times<=0){
             redis.opsForValue().set(key, value);
         }else{
