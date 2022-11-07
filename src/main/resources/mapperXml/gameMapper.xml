@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IGameDao接口方法提供sql语句配置 -->
+<mapper namespace="com.gameshop.mapper.GameMapper">
+
+    <resultMap id="GameRM" type="com.gameshop.entity.Game">
+        <id property="gameId" column="game_id"/>
+        <result property="gameName" column="game_name"/>
+        <result property="gameValue" column="game_value"/>
+        <result property="message" column="message"/>
+        <result property="userId" column="user_id"/>
+        <result property="gameType" column="game_type"/>
+        <result property="gameStore" column="game_store"/>
+        <result column="path" property="path"/>
+    </resultMap>
+
+    <select id="findGame" resultMap="GameRM" resultType="Game">
+        select *
+        from game
+        where game_id = #{gameId}
+    </select>
+    <select id="findAllZero" resultMap="GameRM" resultType="Game">
+        select *
+        from game
+        where user_id &lt; 0
+    </select>
+    <select id="seekGame" resultMap="GameRM" resultType="Game">
+        select *
+        from game
+        where game_name like #{gameName}
+    </select>
+
+    <select id="findAll" resultMap="GameRM" resultType="Game">
+        select *
+        from game
+        where user_id &gt; 0
+    </select>
+    <insert id="addGame" parameterType="Game" useGeneratedKeys="true" keyProperty="gameId">
+        insert into game(game_name, game_value, message, game_type, path, user_id) value (#{gameName},#{gameValue},#{message},#{gameType},#{path},#{userId})
+    </insert>
+
+    <update id="updateGame" parameterType="Game">
+        update game
+        set game_name=#{gameName},
+            game_value=#{gameValue},
+            message=#{message},
+            game_type=#{gameType},
+            path=#{path},
+            user_id=#{userId}
+        where game_id = #{gameId}
+    </update>
+
+    <delete id="deleteGame" parameterType="Game">
+        delete
+        from game
+        where game_id = #{gameId}
+    </delete>
+    <select id="findPageSize" resultType="Game" resultMap="GameRM">
+        select * from game where user_id &gt; 0
+        <if test="param1!=null">
+            and game_type=#{param1}
+        </if>
+        <if test="param2!=null">
+            and game_name like #{param2}
+        </if>
+
+    </select>
+    <select id="findGameTypePage" resultType="Game" resultMap="GameRM">
+        select * from game where user_id &gt; 0
+        <if test="param3!=null">
+            and game_type=#{param3}
+        </if>
+        <if test="param4!=null">
+            and game_name like #{param4}
+        </if>
+        and game_id in ( select game_id from (
+        select game_id from game where user_id &gt; 0
+        <if test="param3!=null">
+            and game_type=#{param3}
+        </if>
+        <if test="param4!=null">
+            and game_name like #{param4}
+        </if>
+        and game_id not in
+        (
+        select game_id from (select game_id from game where user_id &gt; 0
+            <if test="param3!=null">
+                and game_type=#{param3}
+            </if>
+            <if test="param4!=null">
+                and game_name like #{param4}
+            </if>
+            LIMIT #{param2} ) as a)
+        ) as b ) limit #{param1}
+    </select>
+    <select id="orderGameStore" resultType="Game" resultMap="GameRM">
+        select distinct *
+        from game
+        order by game_sotre
+    </select>
+    <select id="findGameTypePageZero" resultType="Game" resultMap="GameRM">
+        select * from game where user_id &lt; 0
+        <if test="param3!=null">
+            and game_type=#{param3}
+        </if>
+        and game_id in ( select game_id from (
+        select game_id from game where user_id &lt; 0
+        <if test="param3!=null">
+            and game_type=#{param3}
+        </if>
+        and game_id not in
+        (select game_id from (select game_id from game where user_id &lt; 0
+        <if test="param3!=null">
+            and game_type=#{param3}
+        </if>
+        LIMIT #{param2} ) as a)
+        ) as b ) limit #{param1}
+    </select>
+    <select id="orderBy" resultType="Game" resultMap="GameRM">
+        select * from game where user_id &lt; 0
+        <if test="param3!=null">
+            and game_type=#{param3}
+        </if>
+        <if test="param4!=true">
+            order by game_store
+        </if>
+        and game_id in ( select game_id from (
+        select game_id from game where user_id &lt; 0
+        <if test="param3!=null">
+            and game_type=#{param3}
+        </if>
+        <if test="param4!=true">
+            order by game_store
+        </if>
+        and game_id not in
+        (select game_id from (select game_id from game where user_id &gt; 0
+        <if test="param3!=null">
+            and game_type=#{param3}
+        </if>
+        <if test="param4!=true">
+            order by game_store
+        </if>
+        LIMIT #{param2} ) as a)
+        ) as b ) limit #{param1}
+    </select>
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IScoreDao接口方法提供sql语句配置 -->
+<mapper namespace="com.gameshop.mapper.ScoreMapper">
+
+    <resultMap id="ScoreRM" type="com.gameshop.entity.Score">
+        <id property="scoreId" column="score_id"/>
+        <id property="gameId" column="game_id"/>
+        <id property="gameStore" column="game_store"/>
+    </resultMap>
+
+    <select id="findScore" resultMap="ScoreRM"  resultType="Score">
+        select * from score where game_id=#{gameId}
+    </select>
+
+    <insert id="addScore" parameterType="Score" useGeneratedKeys="true" keyProperty="scoreId">
+        insert into score(game_id,game_store) value(#{param1.gameId},#{param2.gameStore})
+    </insert>
+
+    <update id="updateScore" >
+        update score set game_store=#{gameStore} where score_id=#{scoreId}
+    </update>
+
+</mapper>

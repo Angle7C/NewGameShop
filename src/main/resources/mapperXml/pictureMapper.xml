@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IPictureDao接口方法提供sql语句配置 -->
+<mapper namespace="com.gameshop.mapper.PictureMapper">
+    <resultMap id="pictureRM" type="com.gameshop.entity.Picture">
+        <id property="gameId" column="game_id"/>
+        <result property="path" column="path"/>
+        <result property="pictureId" column="picture_id"/>
+    </resultMap>
+    <select id="findGameId" resultMap="pictureRM" resultType="Picture">
+        select * from picture where game_id=#{gameId}
+    </select>
+
+    <insert id="addPicture" parameterType="Picture" useGeneratedKeys="true" keyProperty="pictureId">
+        insert into picture(game_id,path) value(#{gameId},#{path})
+    </insert>
+
+    <update id="updatePicture" parameterType="Picture">
+        update picture set  path=#{path} where picture_id=#{pictureId}
+    </update>
+
+    <delete id="deletePicture" parameterType="Picture">
+        delete from picture where picture_id=#{pictureId}
+    </delete>
+    <delete id="deletePictures" >
+        delete from picture where game_id=#{gameId}
+    </delete>
+</mapper>

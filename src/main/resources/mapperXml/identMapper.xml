@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IIndentDao接口方法提供sql语句配置 -->
+<mapper namespace="com.gameshop.mapper.IndentMapper">
+
+    <resultMap id="IndentRM" type="com.gameshop.entity.Indent">
+        <id property="date" column="dates" />
+        <result property="orderId" column="order_id"/>
+        <result property="gameId" column="game_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="value" column="value"/>
+    </resultMap>
+    <select id="findOrder" resultMap="IndentRM" resultType="Indent">
+        select * from indent where order_id=#{id}
+    </select>
+    <select id="findUserId" resultMap="IndentRM" resultType="Indent">
+        select * from indent where user_id=#{id}
+    </select>
+    <insert id="addIndent" parameterType="Indent" useGeneratedKeys="true" keyProperty="orderId">
+        insert into indent(user_id,game_id,value,dates) value(#{userId},#{gameId},#{value},#{date})
+    </insert>
+
+    <update id="updateIndent" parameterType="Indent">
+        update indent set value=#{value} where game_id=#{gameId} and user_id=#{userId} where order_id=#{orderId}
+    </update>
+
+    <delete id="deleteIndent" parameterType="Indent">
+        delete from indent where order_id=#{orderId}
+    </delete>
+    <select id="identPage" resultMap="IndentRM" resultType="Indent">
+        select * from user where order_id in ( select order_id from (
+               select order_id from user where order_id not in
+                   (select order_id from (select order_id from  user where user_id=#{#param3} LIMIT #{param2} ) as a)
+        ) as b ) limit #{param1}
+    </select>
+</mapper>

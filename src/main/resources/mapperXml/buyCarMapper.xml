@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 设置为IBuyCarDao接口方法提供sql语句配置 -->
+<mapper namespace="com.gameshop.mapper.BuyCarMapper">
+
+    <resultMap id="BuyCarRM" type="com.gameshop.entity.BuyCar">
+        <id property="buyCarId" column="buycar_id"/>
+        <id property="gameId" column="game_id"/>
+        <id property="userId" column="user_id"/>
+    </resultMap>
+
+    <select id="findBuyCar" resultMap="BuyCarRM"  resultType="BuyCar">
+        select * from buycar where buycar_id=#{buyCarId}
+    </select>
+    <select id="findUserId" resultMap="BuyCarRM" resultType="BuyCar">
+        select * from buycar where user_id=#{id}
+    </select>
+
+    <insert id="addBuyCar"  useGeneratedKeys="true" keyProperty="buyCarId" parameterType="BuyCar">
+        insert into buycar(user_id,game_id) value(#{userId},#{gameId})
+    </insert>
+
+    <update id="updateBuyCar" >
+        update buycar set game_id=#{gameId} where buycar_id=#{buyCarId}
+    </update>
+
+    <delete id="deleteBuyCar">
+        delete from buycar where buycar_id=#{buyCarId}
+    </delete>
+
+</mapper>
