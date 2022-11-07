@@ -9,6 +9,8 @@ public enum ErrorEnums {
     ADD_ERROR(102,"添加异常"),
     EDIT_ERROR(103,"修改异常"),
     REMOVE_ERROR(104,"删除异常"),
+    MinIO_ERROR(105,"MinIO异常"),
+    LOGIN_ERROR(0,"登录异常"),
     CHECK_ERROR(110,"格式异常");
      
     private Integer code;
