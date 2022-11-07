@@ -1,4 +1,4 @@
-package com.example.newgameshop.service.Impl;
+package com.example.newgameshop.service.impl;
 
 import com.example.newgameshop.entity.BuyCar;
 import com.example.newgameshop.mapper.BuyCarMapper;
@@ -13,23 +13,28 @@ public class BuyCarServiceImpl implements BuyCarService {
     @Resource
     private BuyCarMapper buyCarMapper;
 
-    public BuyCar findBuyCar(Integer id){
-        BuyCar buyCar=buyCarMapper.findBuyCar(id);
-        return buyCar;}
+    public BuyCar findBuyCar(Integer id) {
+        BuyCar buyCar = buyCarMapper.findBuyCar(id);
+        return buyCar;
+    }
 
-    public List<BuyCar> findUserId(Integer id){
-        List<BuyCar> buyCarList=buyCarMapper.findUserId(id);
-        return buyCarList;}
+    public List<BuyCar> findUserId(Integer id) {
+        List<BuyCar> buyCarList = buyCarMapper.findUserId(id);
+        return buyCarList;
+    }
 
-    public Boolean addBuyCar(BuyCar buyCar){
+    public Boolean addBuyCar(BuyCar buyCar) {
         buyCarMapper.addBuyCar(buyCar);
-        return true;}
+        return true;
+    }
 
-    public Boolean deleteBuyCar(BuyCar buyCar){
+    public Boolean deleteBuyCar(BuyCar buyCar) {
         buyCarMapper.deleteBuyCar(buyCar);
-        return true;}
+        return true;
+    }
 
-    public Boolean updateBuyCar(BuyCar buyCar){
+    public Boolean updateBuyCar(BuyCar buyCar) {
         buyCarMapper.updateBuyCar(buyCar);
-        return true;}
+        return true;
+    }
 }

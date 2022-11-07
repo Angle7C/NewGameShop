@@ -1,4 +1,4 @@
-package com.example.newgameshop.service.Impl;
+package com.example.newgameshop.service.impl;
 
 import com.example.newgameshop.entity.User;
 import com.example.newgameshop.mapper.UserMapper;

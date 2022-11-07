@@ -1,4 +1,4 @@
-package com.example.newgameshop.service.Impl;
+package com.example.newgameshop.service.impl;
 
 import com.example.newgameshop.service.RedisService;
 import org.springframework.data.redis.core.StringRedisTemplate;
