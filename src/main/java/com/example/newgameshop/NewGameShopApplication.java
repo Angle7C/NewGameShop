@@ -13,6 +13,8 @@ public class NewGameShopApplication {
     }
     @Bean
     public CorsConfiguration getCorsConfiguration(){
-        new CorsConfiguration().addAllowedHeader("*");
+      CorsConfiguration cors=new CorsConfiguration();
+
+      return cors;
     }
 }
