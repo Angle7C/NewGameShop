@@ -1,2 +1,11 @@
-{
-    }
+server:
+  port: 801
+spring:
+  application:
+    name: GameShop
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://124.221.237.233:3306/gameshop?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: chen
+    password: 123456
+
