@@ -22,14 +22,14 @@ public class ScoreServiceImpl implements ScoreService {
         return score;}
 
     public Boolean addScore(Score score){
-
-        return false;}
+        scoreMapper.addScore(score);
+        return true;}
 
     public Boolean updateScore(Score score){
-
-        return false;}
+        scoreMapper.updateScore(score);
+        return true;}
 
     public Boolean deleteGameId(Integer gameId){
-
-        return false;}
+        scoreMapper.deleteScoreGame(gameId);
+        return true;}
 }

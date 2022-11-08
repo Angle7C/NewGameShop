@@ -6,17 +6,17 @@ import com.example.newgameshop.entity.Game;
 import java.util.List;
 
 public interface GameService {
-    public List<Game> findAll();
-    public Game findGame(Integer id);
-    public List<Game> seekName(String name);
-    public void addGame(Game game);
-    public void updateGame(Game game);
-    public void deleteGame(Game game);
-    public List<Game> findPageSize(String type,String name);
-    public List<Game> findGameTypePage( int size , int page,String gameType,String name);
-    public List<Game> findGameTypePageZero( int size , int page,String gameType);
-    public List<Game> findAllZero();
-    public List<Game> seekNameZero(String Name);
-    public List<Game> orderBy(int size, int page, String gameType,Boolean bool);
+    default List<Game> findAll(){return null;}
+    default Game findGame(Integer id){return null;}
+    default List<Game> seekName(String name){return null;}
+    default Boolean addGame(Game game){return false;}
+    default Boolean updateGame(Game game){return false;}
+    default Boolean deleteGame(Game game){return false;}
+    default List<Game> findPageSize(String type,String name){return null;}
+    default List<Game> findGameTypePage( int size , int page,String gameType,String name){return null;}
+    default List<Game> findGameTypePageZero( int size , int page,String gameType,Boolean bool){return null;}
+    default List<Game> findAllZero(){return null;}
+    default List<Game> seekNameZero(String Name){return null;}
+    default List<Game> orderBy(int size, int page, String gameType,Boolean bool){return null;}
 
 }

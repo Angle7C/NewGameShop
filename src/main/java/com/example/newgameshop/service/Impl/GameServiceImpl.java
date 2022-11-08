@@ -1,70 +1,63 @@
-package com.example.newgameshop.service.impl;
+package com.example.newgameshop.service.Impl;
 
 import com.example.newgameshop.entity.Game;
+import com.example.newgameshop.mapper.GameMapper;
 import com.example.newgameshop.service.GameService;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Service
 public class GameServiceImpl implements GameService {
-    @Override
-    public List<Game> findAll() {
-        return null;
-    }
+    @Resource
+    private GameMapper gameMapper;
 
-    @Override
-    public Game findGame(Integer id) {
-        return null;
-    }
+    public List<Game> findAll(){
+        List<Game> gameList=gameMapper.findAll();
+        return gameList;}
 
-    @Override
-    public List<Game> seekName(String name) {
-        return null;
-    }
+    public Game findGame(Integer id){
+        Game game=gameMapper.findGame(id);
+        return game;}
 
-    @Override
-    public void addGame(Game game) {
+    public List<Game> seekName(String name){
+        List<Game> gameList=gameMapper.seekName(name);
+        return gameList;}
 
-    }
+    public Boolean addGame(Game game){
+        gameMapper.addGame(game);
+        return true;}
 
-    @Override
-    public void updateGame(Game game) {
+    public Boolean updateGame(Game game){
+        gameMapper.updateGame(game);
+        return true;}
 
-    }
+    public Boolean deleteGame(Game game){
+        gameMapper.deleteGame(game);
+        return true;}
 
-    @Override
-    public void deleteGame(Game game) {
+    public List<Game> findPageSize(String type,String name){
+        List<Game> gameList=gameMapper.findPageSize(type, name);
+        return gameList;}
 
-    }
+    public List<Game> findGameTypePage( int size , int page,String gameType,String name){
+        List<Game> gameList=gameMapper.findGameTypePage(size, page, gameType, name);
+        return gameList;}
 
-    @Override
-    public List<Game> findPageSize(String type, String name) {
-        return null;
-    }
+    public List<Game> findGameTypePageZero( int size , int page,String gameType,Boolean bool){
+        List<Game> gameList=gameMapper.findGameTypePageZero(size, page, gameType,bool);
+        return gameList;}
 
-    @Override
-    public List<Game> findGameTypePage(int size, int page, String gameType, String name) {
-        return null;
-    }
+    public List<Game> findAllZero(){
+        List<Game> gameList=gameMapper.findAllZero();
+        return gameList;}
 
-    @Override
-    public List<Game> findGameTypePageZero(int size, int page, String gameType) {
-        return null;
-    }
+    public List<Game> seekNameZero(String Name){
+        List<Game> gameList=gameMapper.seekNameZero(Name);
+        return gameList;}
 
-    @Override
-    public List<Game> findAllZero() {
-        return null;
-    }
-
-    @Override
-    public List<Game> seekNameZero(String Name) {
-        return null;
-    }
-
-    @Override
-    public List<Game> orderBy(int size, int page, String gameType, Boolean bool) {
-        return null;
-    }
+    public List<Game> orderBy(int size, int page, String gameType,Boolean bool){
+        List<Game> gameList=gameMapper.orderBy(size, page, gameType, bool);
+        return gameList;}
 }
