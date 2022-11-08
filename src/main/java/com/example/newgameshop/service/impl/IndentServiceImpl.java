@@ -13,13 +13,15 @@ public class IndentServiceImpl implements IndentService {
     @Resource
     private IndentMapper indentMapper;
 
+
     public Indent findOrder(Integer id){
-        Indent indent=findOrder(id);
+        Indent indent=indentMapper.findOrder(id);
         return indent;}
 
     public List<Indent> findUserId(Integer id){
-        List<Indent> indentList=findUserId(id);
-        return indentList;}
+        return indentMapper.findUserId(id);
+
+    }
 
     public Boolean addIndent(Indent indent){
         indentMapper.addIndent(indent);

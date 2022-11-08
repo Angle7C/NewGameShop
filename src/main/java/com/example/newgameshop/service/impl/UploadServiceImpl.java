@@ -33,7 +33,7 @@ public class UploadServiceImpl implements UploadService {
     public String multiFileUpload(FileDomain fileDomain,String buckName,Integer gameId) {
         List<MultipartFile> files = fileDomain.getFiles();
         String path=null;
-        if (!FileUtil.getSuffix(files.get(0).getOriginalFilename()).equals(".rar")) {
+        if (!FileUtil.getSuffix(files.get(0).getOriginalFilename()).equals("rar")) {
             throw new MyException(ErrorEnums.CHECK_ERROR);
         }else{
             String gameName = gameId + "_0.rar";
@@ -42,12 +42,12 @@ public class UploadServiceImpl implements UploadService {
         minIO.createBucket(buckName);
 //        List<Picture> list = new ArrayList<Picture>();
         MultipartFile file = null;
-        minIO.createBucket("picture");
+        minIO.createBucket("image");
         log.info("[图片上传中]");
         for (int index = 1; index < files.size(); index++) {
             file = files.get(index);
-            String pictureName=gameId+"_"+index;
-            String paths = minIO.uploadFile(file, "picture", pictureName);
+            String pictureName=gameId+"_"+index+"."+FileUtil.getSuffix(file.getOriginalFilename());
+            String paths = minIO.uploadFile(file, "image", pictureName);
             Picture picture = new Picture(gameId, paths,index);
 //            list.add(picture);
             pictureService.addPicture(picture);

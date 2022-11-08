@@ -42,15 +42,16 @@ public class MinIO {
 
     }
     public String uploadFile(MultipartFile file, String bucketName,String fileName){
-        String path=fileName+"."+ FileUtil.getSuffix(file.getOriginalFilename());
+        String path=fileName;
         if(!StrUtil.containsAny(path,".png",".jpg",".jpeg",".rar",".zip")){
             log.info("格式错误: {}",FileUtil.getSuffix(path));
             throw new MyException(ErrorEnums.CHECK_ERROR);
         }
         try {
             client.putObject( PutObjectArgs.builder()
+                            .object(fileName)
                     .bucket(bucketName)
-                    .object(path)
+                    .stream(file.getInputStream(),file.getSize(),0)
                     .contentType(file.getContentType()).build());
         } catch (Exception e){
             log.info("[MinIO]:上传文件失败 {}",e);

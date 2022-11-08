@@ -45,14 +45,14 @@ public class FileUploadController {
                 description.get(0),
                 Float.valueOf(description.get(2)),
                 description.get(3),
-                UserVerify.verify(session),
+                -UserVerify.verify(session),
                 description.get(1),
                 3,null );
         gameService.addGame(game);
-        String path=uploadService.multiFileUpload(fileDomain,"Game", game.getGameId());
+        String path=uploadService.multiFileUpload(fileDomain,"game", game.getGameId());
         game.setPath(path);
         gameService.updateGame(game);
-        return null;
+        return new JsonResult<>(450,"上传成功");
     }
     @RequestMapping(value="/download/{gameId}")
     public ResponseEntity<byte[]> download(HttpServletRequest request, @PathVariable("gameId") Integer gameId, @RequestHeader("User-Agent") String userAgent) throws IOException {

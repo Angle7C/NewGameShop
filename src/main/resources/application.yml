@@ -11,10 +11,13 @@ spring:
   redis:
     host: 124.221.237.233
     database: 0
+  servlet:
+    multipart:
+      max-file-size: 100MB
 minio:
   endpoint: http://124.221.237.233:9000
   accessKey: chen
-  secretKey: minioadmin
+  secretKey: 123456789
 mybatis:
   mapper-locations: classpath:mapperXMl/*.xml
   type-aliases-package: com.example.newgameshop.entity

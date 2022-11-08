@@ -51,28 +51,25 @@ public class UserController {
     @GetMapping("islogin")
     public JsonResult isLogin(HttpSession session){
         if(ObjectUtil.isEmpty(UserVerify.verify(session))){
+
             return new JsonResult(200,"未登录");
         }else {
-            return new JsonResult(450,"已登录");
+            User user = userService.findId(UserVerify.verify(session));
+            return new JsonResult(450,"已登录",user);
         }
     }
     //注册按钮
     @PostMapping("registe")
-    public JsonResult registe(ObjectAndString<User,String> oas){
+    public JsonResult registe(@RequestBody ObjectAndString<User,String> oas){
         User user=oas.getFirst();
         String codeFornt=oas.getSecond();
-        try{
-            String codeBack=redisService.get(user.getEmail());
-            if(codeBack.equals(codeFornt)){
-                userService.addUser(user);
-                return new JsonResult(450,"SUCCESS");
-            }else {
-                return new JsonResult(200,"Fail");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
+        if(registeredEmailUtil.checkCode(user.getEmail(),codeFornt)){
+            userService.addUser(user);
+            return new JsonResult("450","注册成功");
+
+        }else{
+            return new JsonResult(200,"系统异常");
         }
-        return new JsonResult(200,"系统异常");
 
     }
     //显示分页用户数据
@@ -93,38 +90,13 @@ public class UserController {
     @PutMapping("user")
     public JsonResult updateUser(@RequestBody User user){
         User u=userService.findId(user.getUserId());
+        if(!u.getUserPwd().equals(user.getEmail())){
+            return new JsonResult("200","密码不一致");
+        }
         u.setUserPwd(user.getUserPwd());
         userService.updateUser(u);
         return new JsonResult(450,"修改成功");
     }
-
-//    @RequestMapping("/updateuser.html")
-//    @ResponseBody
-//    @Transactional
-//    public Map<String,Object> updataUser(@RequestBody User user , HttpSession session){
-//        Map<String,Object> map=new TreeMap<>();
-//        Integer userId=UserVerify.verify(session);
-//        User t=new User();
-//        if(userId==null) {
-//            map.put("message",false);
-//            map.put("data","未登录");
-//            return map;
-//        }
-//        t = userService.findId(userId);
-//        if(t.getUserPwd().equals(MD5.toMD5(user.getEmail()))) {
-//
-//            t.setUserPwd(MD5.toMD5(user.getUserPwd()));
-//            t.setUserName(user.getUserName());
-//            map.put("message", true);
-//            userService.updateUser(t);
-//            map.put("data", t);
-//        }else{
-//            map.put("message", false);
-////            userService.updateUser(t);
-//            map.put("data", "原密码错误");
-//        }
-//            return map;
-//    }
     //删除用户
     @DeleteMapping("user")
     public JsonResult deleteUser(@RequestBody User user){
@@ -146,8 +118,12 @@ public class UserController {
 
     //充值
     @PostMapping("charge/{money}")
-    public JsonResult charge(@PathVariable double money,HttpSession session){
+    public JsonResult charge(@PathVariable Double money,HttpSession session){
         User user=userService.findId(UserVerify.verify(session));
+        if(money<0){
+            return new JsonResult(200,"傻逼");
+
+        }
         user.setMoney(user.getMoney()+money);
         userService.updateUser(user);
         return new JsonResult(450,"充值成功");

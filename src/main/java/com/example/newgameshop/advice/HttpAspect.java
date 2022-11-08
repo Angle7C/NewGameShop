@@ -1,6 +1,7 @@
 package com.example.newgameshop.advice;
 
 
+import cn.hutool.core.util.ObjectUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -43,7 +44,11 @@ public class HttpAspect {
 	
 	@AfterReturning(pointcut="log()",returning="ret")
 	public void logAfterRet(Object ret) {
-		logger.info("response={}",ret.toString());
+		if(ObjectUtil.isEmpty(ret)){
+			logger.info("没有返回值");
+		}else{
+			logger.info("response={}",ret.toString());
+		}
 	}
 	
 	

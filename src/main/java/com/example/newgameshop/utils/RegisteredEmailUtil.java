@@ -39,8 +39,11 @@ public class RegisteredEmailUtil {
         String code=getCode();
         log.info("[emial code]:{}",code);
         String ans= MailUtil.send(account,to, "验证码测试", code, false);
-        redisUtil.setValue(to,code,10, TimeUnit.MINUTES);
+        redisUtil.setValue(to,code,120, TimeUnit.MINUTES);
         return true;
+    }
+    public boolean checkCode(String to,String code){
+        return code.equals(redisUtil.getValue(to));
     }
     public   String getCode(){
         //生成六位验证码

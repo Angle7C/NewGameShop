@@ -1,5 +1,6 @@
 package com.example.newgameshop.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.example.newgameshop.entity.*;
 import com.example.newgameshop.service.BuyCarService;
 import com.example.newgameshop.service.GameService;
@@ -66,9 +67,12 @@ public class IndentController {
     }
 
     //
-    @GetMapping("/indentpage")
-    public JsonResult findIndent(@ModelAttribute List<Game> gameList, HttpSession session){
+    @PostMapping("/indentpage")
+    public JsonResult findIndent(HttpSession session){
         Integer userId = UserVerify.verify(session);
+        if(ObjectUtil.isEmpty(userId)){
+            return new JsonResult(200,"没有登录");
+        }
         Map<String,Object> map=new TreeMap<String,Object>();
         List<Indent> L = indentService.findUserId(userId);
         List<Integer> orderIdList=new ArrayList<Integer>();
