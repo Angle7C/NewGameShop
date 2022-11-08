@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 设置为IBuyCarDao接口方法提供sql语句配置 -->
-<mapper namespace="com.gameshop.mapper.BuyCarMapper">
+<mapper namespace="com.example.newgameshop.mapper.BuyCarMapper">
 
     <resultMap id="BuyCarRM" type="com.gameshop.entity.BuyCar">
         <id property="buyCarId" column="buycar_id"/>

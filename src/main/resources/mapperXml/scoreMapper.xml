@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 设置为IScoreDao接口方法提供sql语句配置 -->
-<mapper namespace="com.gameshop.mapper.ScoreMapper">
+<mapper namespace="com.example.newgameshop.mapper.ScoreMapper">
 
     <resultMap id="ScoreRM" type="com.gameshop.entity.Score">
         <id property="scoreId" column="score_id"/>

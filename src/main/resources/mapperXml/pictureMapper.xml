@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <!-- 设置为IPictureDao接口方法提供sql语句配置 -->
-<mapper namespace="com.gameshop.mapper.PictureMapper">
+<mapper namespace="com.example.newgameshop.mapper.PictureMapper">
     <resultMap id="pictureRM" type="com.gameshop.entity.Picture">
         <id property="gameId" column="game_id"/>
         <result property="path" column="path"/>
