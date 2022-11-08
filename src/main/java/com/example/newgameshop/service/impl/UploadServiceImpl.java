@@ -1,7 +1,6 @@
 package com.example.newgameshop.service.impl;
 
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.util.StrUtil;
 import com.example.newgameshop.entity.FileDomain;
 import com.example.newgameshop.entity.Picture;
 import com.example.newgameshop.exception.MyException;
@@ -13,14 +12,10 @@ import io.minio.GetObjectResponse;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
