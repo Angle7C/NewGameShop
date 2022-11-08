@@ -60,13 +60,19 @@ public class UserController {
     public JsonResult registe(ObjectAndString<User,String> oas){
         User user=oas.getFirst();
         String codeFornt=oas.getSecond();
-        String codeBack=redisService.get(user.getEmail());
-        if(codeBack.equals(codeFornt)){
-            userService.addUser(user);
-            return new JsonResult(450,"SUCCESS");
-        }else {
-            return new JsonResult(200,"Fail");
+        try{
+            String codeBack=redisService.get(user.getEmail());
+            if(codeBack.equals(codeFornt)){
+                userService.addUser(user);
+                return new JsonResult(450,"SUCCESS");
+            }else {
+                return new JsonResult(200,"Fail");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
+        return new JsonResult(200,"系统异常");
+
     }
     //显示分页用户数据
     @GetMapping("user/page/{pageNum}/{pageSize}")
