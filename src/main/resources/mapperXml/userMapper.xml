@@ -3,7 +3,7 @@
 
 <!-- 设置为IUserDao接口方法提供sql语句配置 -->
 <mapper namespace="com.example.newgameshop.mapper.UserMapper">
-    <resultMap id="userRM" type="com.gameshop.entity.User">
+    <resultMap id="userRM" type="com.example.newgameshop.entity.User">
         <id column="user_id" property="userId"/>
         <result column="user_name" property="userName"/>
         <result column="user_pwd"  property="userPwd"/>

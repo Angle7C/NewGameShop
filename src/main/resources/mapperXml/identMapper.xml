@@ -4,7 +4,7 @@
 <!-- 设置为IIndentDao接口方法提供sql语句配置 -->
 <mapper namespace="com.example.newgameshop.mapper.IndentMapper">
 
-    <resultMap id="IndentRM" type="com.gameshop.entity.Indent">
+    <resultMap id="IndentRM" type="com.example.newgameshop.entity.Indent">
         <id property="date" column="dates" />
         <result property="orderId" column="order_id"/>
         <result property="gameId" column="game_id"/>

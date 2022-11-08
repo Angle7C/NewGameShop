@@ -4,7 +4,7 @@
 <!-- 设置为IScoreDao接口方法提供sql语句配置 -->
 <mapper namespace="com.example.newgameshop.mapper.ScoreMapper">
 
-    <resultMap id="ScoreRM" type="com.gameshop.entity.Score">
+    <resultMap id="ScoreRM" type="com.example.newgameshop.entity.Score">
         <id property="scoreId" column="score_id"/>
         <id property="gameId" column="game_id"/>
         <id property="gameStore" column="game_store"/>

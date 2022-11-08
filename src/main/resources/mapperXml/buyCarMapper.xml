@@ -4,7 +4,7 @@
 <!-- 设置为IBuyCarDao接口方法提供sql语句配置 -->
 <mapper namespace="com.example.newgameshop.mapper.BuyCarMapper">
 
-    <resultMap id="BuyCarRM" type="com.gameshop.entity.BuyCar">
+    <resultMap id="BuyCarRM" type="com.example.newgameshop.entity.BuyCar">
         <id property="buyCarId" column="buycar_id"/>
         <id property="gameId" column="game_id"/>
         <id property="userId" column="user_id"/>

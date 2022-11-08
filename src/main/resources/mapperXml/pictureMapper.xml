@@ -3,7 +3,7 @@
 
 <!-- 设置为IPictureDao接口方法提供sql语句配置 -->
 <mapper namespace="com.example.newgameshop.mapper.PictureMapper">
-    <resultMap id="pictureRM" type="com.gameshop.entity.Picture">
+    <resultMap id="pictureRM" type="com.example.newgameshop.entity.Picture">
         <id property="gameId" column="game_id"/>
         <result property="path" column="path"/>
         <result property="pictureId" column="picture_id"/>
