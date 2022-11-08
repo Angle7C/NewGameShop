@@ -12,4 +12,9 @@ class NewGameShopApplicationTests {
         System.out.println(FileUtil.getSuffix("a.png"));
     }
 
+    @Test
+    void findUserIdTest(){
+        System.out.println();
+    }
+
 }

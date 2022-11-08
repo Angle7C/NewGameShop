@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -70,42 +71,59 @@ public class GoodsController {
     //限制页数显示
     @GetMapping("/gamepagesize/{size}")
     public JsonResult pageSize(@PathVariable Integer size){
+        Map<String,Object> map=new TreeMap<String,Object>();
         Page page=new Page();
         page.setPageSize(size);
         List<Game> L = gameService.findAllZero();
         page.setTotalPages( L.size() / page.getPageSize()+(L.size()%page.getPageSize()==0 ? 0 : 1 ));
         page.setCurrentPage(1);
-        return new JsonResult("查找成功",page);
+        map.put("message",true);
+        map.put("data",page);
+        return new JsonResult(450,"查找成功",map);
     }
 
     //游戏类型，名字，页数分页显示
-    @GetMapping("/gamepage/{type}/{size}/{Name}")
-    public JsonResult gamePage(@PathVariable String type,@PathVariable String size,@PathVariable String Name){
-        Integer sizes=Integer.valueOf(size);
-        List<Game> gameTypePage = gameService.findPageSize(type,Name);
+    @PostMapping("/gamepage")
+    public JsonResult gamePage(@RequestBody Map<String,Object> t){
+        Map<String,Object> map=new TreeMap<String,Object>();
+        Object bool=t.get("type");
+        Object sizes= t.get("size");
+        Integer size=(Integer) t.get("size");
+        Object name=t.get("Name");
+        List<Game> gameTypePage = gameService.findPageSize( (String) bool,(String) name);
+        map.put("message",true);
         Page page=new Page();
         page.setCurrentPage(1);
-        page.setPageSize(sizes);
-        page.setTotalPages(gameTypePage.size()%sizes==0?gameTypePage.size()/sizes:gameTypePage.size()/sizes+1);
+        page.setPageSize(size);
+        page.setTotalPages(gameTypePage.size()%size==0?gameTypePage.size()/size:gameTypePage.size()/size+1);
         System.out.println(gameTypePage.size());
-        return new JsonResult("查找成功",page);
+        map.put("data",page);
+        return new JsonResult(450,"查找成功",map);
     }
 
     //根据游戏类型分页查找游戏
-    @GetMapping("/gametypepage/{type}/{Name}/{currentPage}/{pageSize}/{totalPages}")
-    public JsonResult gameTypePage(@PathVariable String type,@PathVariable String Name,@PathVariable Integer currentPage,@PathVariable Integer pageSize,@PathVariable Integer totalPages){
+    @PostMapping ("/gametypepage")
+    @ResponseBody
+    public JsonResult gameTypePage(@RequestBody HashMap<String, Object> t){
         Map<String,Object> map=new TreeMap<>();
         Map<String,Object> m=new TreeMap<>();
+        String bool=(String)t.get("type");
+        String name=(String)t.get("Name");
+        Integer current= (Integer )t.get("currentPage");
+        Integer size= (Integer )t.get("pageSize");
+        System.out.println(t);
+        Integer total= (Integer )t.get("totalPages");
         Page page=new Page();
-        page.setCurrentPage(currentPage);
-        page.setPageSize(pageSize);
-        page.setTotalPages(totalPages);
-        List<Game> gameTypePage = gameService.findGameTypePage(pageSize,currentPage, type==""?null:type,Name==""?null:Name);
+        page.setCurrentPage(current);
+        page.setPageSize(size);
+        page.setTotalPages(total);
+        System.out.println(page.getPageSize());
+        List<Game> gameTypePage = gameService.findGameTypePage(page.getPageSize(), page.getCurrentPage(), bool==""?null:bool,name==""?null:name);
         map.put("message",true);
         m.put("array",gameTypePage);
         m.put("page",page);
         map.put("data",m);
-        return new JsonResult("查找成功",map);
+        return new JsonResult(450,"查找成功",map);
     }
 
     //取消游戏上架
