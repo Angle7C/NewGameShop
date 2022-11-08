@@ -57,7 +57,9 @@ public class UserController {
     //注册按钮
     @PostMapping("registe")
     public JsonResult registe(User user, HttpSession session){
+        
         userService.addUser(user);
+
         return new JsonResult(450,"SUCCESS");
     }
     //显示分页用户数据
