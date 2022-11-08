@@ -2,6 +2,7 @@ package com.example.newgameshop.utils;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Validator;
+import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import com.example.newgameshop.exception.MyException;
 import com.example.newgameshop.exception.enums.ErrorEnums;
@@ -18,16 +19,24 @@ public class RegisteredEmailUtil {
     private static final String symbols="01234564789ADBCGPOLKJ";
     private static final Random random=new SecureRandom();
 
+    private static MailAccount account=new MailAccount();
+    static {
+        account.setHost("smtp.163.com");
+        account.setPort(25);
+        account.setAuth(true);
+        account.setFrom("15305067103@163.com");
+        account.setUser("15305067103@163.com");
+        account.setPass("AFVQHCTJDIUDRVLE");
+    }
     @Autowired
     private  RedisUtil redisUtil;
     public  boolean registerCode(String to){
-        if (Validator.isEmail(to)){
+        if (!Validator.isEmail(to)){
             throw new  MyException(ErrorEnums.CHECK_ERROR.getCode(),"邮箱格式错误");
         }
         String code=getCode();
-        String ans= MailUtil.send(to, "验证码测试", code, false);
+        String ans= MailUtil.send(account,to, "验证码测试", code, false);
         redisUtil.setValue(to,code,10, TimeUnit.MINUTES);
-        Assert.isNull(ans,"邮箱发送失败");
         return true;
     }
     public   String getCode(){

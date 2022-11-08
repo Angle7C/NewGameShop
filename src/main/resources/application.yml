@@ -9,10 +9,12 @@ spring:
     username: chen
     password: 123456
   redis:
-    host: 124.221.237.233:6379
+    host: 124.221.237.233
     database: 0
 minio:
   endpoint: http://124.221.237.233:9000
   accessKey: chen
   secretKey: minioadmin
-
+mybatis:
+  mapper-locations: classpath:mapperXMl/*.xml
+  type-aliases-package: com.example.newgameshop.entity

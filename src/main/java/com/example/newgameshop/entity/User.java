@@ -1,5 +1,8 @@
 package com.example.newgameshop.entity;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("User")
 public class User {
       private Integer userId;
       private String userName;

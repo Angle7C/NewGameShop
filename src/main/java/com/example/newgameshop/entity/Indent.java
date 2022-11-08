@@ -1,7 +1,9 @@
 package com.example.newgameshop.entity;
 
-import java.util.Date;
+import org.apache.ibatis.type.Alias;
 
+import java.util.Date;
+@Alias("indent")
 public class Indent {
     private Integer userId;
     private Integer orderId;

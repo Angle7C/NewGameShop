@@ -1,5 +1,8 @@
 package com.example.newgameshop.entity;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("Picture")
 public class Picture {
     private Integer gameId;
     private String path;

@@ -1,5 +1,8 @@
 package com.example.newgameshop.entity;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("page")
 public class Page {
     private Integer currentPage ;    //当前页数
     private Integer totalPages;        //总页数
