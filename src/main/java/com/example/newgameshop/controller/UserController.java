@@ -21,12 +21,13 @@ public class UserController {
     private UserService userService;
     private RedisService redisService;
     private RegisteredEmailUtil registeredEmailUtil;
+    //用户登录
     @PostMapping("/login/{username}/{password}")
     public JsonResult login(@PathVariable String email, @PathVariable String password,HttpSession session){
         User user=userService.findEmail(email);
         if(user.getUserPwd().equals(password)){
             session.setAttribute("userId", user.getUserId());
-            return new JsonResult(450,"登录成功");
+            return new JsonResult(450,"登录成功",user);
         }else{
             return new JsonResult(200,"登录失败");
         }
