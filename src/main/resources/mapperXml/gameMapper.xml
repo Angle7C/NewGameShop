@@ -47,7 +47,8 @@
             message=#{message},
             game_type=#{gameType},
             path=#{path},
-            user_id=#{userId}
+            user_id=#{userId},
+            game_store=#{gameStore}
         where game_id = #{gameId}
     </update>
 

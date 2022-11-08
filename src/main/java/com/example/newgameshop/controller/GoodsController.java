@@ -8,6 +8,8 @@ import com.example.newgameshop.service.BuyCarService;
 import com.example.newgameshop.service.GameService;
 import com.example.newgameshop.service.PictureService;
 import com.example.newgameshop.untils.UserVerify;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -132,24 +134,65 @@ public class GoodsController {
         return new JsonResult(450,"查找成功",map);
     }
 
-    //取消游戏上架
-    @PutMapping("/cancelgameup/{gameId}/{flag}")
-    public JsonResult cancelGameUp(@PathVariable Integer gameId,@PathVariable Boolean flag,HttpSession session){
-        Map<String ,Object> map=new TreeMap<>();
-        Integer userId=UserVerify.verify(session);
+    //审核游戏
+    @PostMapping("audit")
+    public JsonResult cancelGameUp(@RequestBody Map<String,Object> map) {
+        String gameid=(String) map.get("first");
+        Integer gameId=Integer.parseInt(gameid);
+        Boolean flag=(Boolean) map.get("second");
         Game game=gameService.findGame(gameId);
         if(game.getUserId()<0&&flag==false){
-            map.put("message",true);
-            map.put("data","停止申请");
+            gameService.deleteGame(game);
+            return new JsonResult(450,"拒绝通过成功!");
         }else if(game.getUserId()<0&& flag==true){
             game.setUserId(-game.getUserId());
             gameService.updateGame(game);
-            map.put("message",true);
-            map.put("data","通过申请");
+            return new JsonResult(450,"申请通过成功!");
         }else{
-            map.put("message",false);
-            map.put("data","游戏已上架");
+            return new JsonResult(450,"该游戏已上架!");
         }
-        return new JsonResult("判断完成",map);
     }
+
+
+    /*
+        后台游戏控制层
+    */
+    //所有游戏
+    @GetMapping("games/{pageNum}/{pageSize}")
+    public JsonResult ShowPublishedGames(@PathVariable int pageNum,@PathVariable int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<Game> games=gameService.findAll();
+        PageInfo<Game> pageInfo=new PageInfo<>(games);
+        return new JsonResult(450,"SUCCESS",pageInfo);
+    }
+
+    //删除游戏
+    @DeleteMapping("games")
+    public JsonResult DeleteGame(@RequestBody Game game){
+        Game g=gameService.findGame(game.getGameId());
+        gameService.deleteGame(g);
+        return new JsonResult(450,"删除成功");
+    }
+
+    //修改游戏信息
+    @PutMapping("games")
+    public JsonResult UpdateGame(@RequestBody Game game){
+        Game g=gameService.findGame(game.getGameId());
+        g.setGameName(game.getGameName());
+        g.setGameValue(game.getGameValue());
+        g.setGameStore(game.getGameStore());
+        gameService.updateGame(g);
+        System.out.println(g.getGameStore());
+        return new JsonResult(450,"SUCCESS");
+    }
+
+    //待审核游戏
+    @GetMapping("nopublishgames/{pageNum}/{pageSize}")
+    public JsonResult ShowNoPublishGames(@PathVariable int pageNum,@PathVariable int pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<Game> games=gameService.findAllZero();
+        PageInfo<Game> pageInfo=new PageInfo<>(games);
+        return new JsonResult(450,"SUCCESS",pageInfo);
+    }
+
 }
