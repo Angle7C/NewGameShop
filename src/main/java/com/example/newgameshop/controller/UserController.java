@@ -2,6 +2,7 @@ package com.example.newgameshop.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.example.newgameshop.entity.JsonResult;
+import com.example.newgameshop.entity.ObjectAndString;
 import com.example.newgameshop.entity.User;
 import com.example.newgameshop.service.RedisService;
 import com.example.newgameshop.service.UserService;
@@ -22,7 +23,7 @@ public class UserController {
     private RedisService redisService;
     private RegisteredEmailUtil registeredEmailUtil;
     //用户登录
-    @PostMapping("/login/{username}/{password}")
+    @PostMapping("/login/{email}/{password}")
     public JsonResult login(@PathVariable String email, @PathVariable String password,HttpSession session){
         User user=userService.findEmail(email);
         if(user.getUserPwd().equals(password)){
@@ -56,11 +57,16 @@ public class UserController {
     }
     //注册按钮
     @PostMapping("registe")
-    public JsonResult registe(User user, HttpSession session){
-        
-        userService.addUser(user);
-
-        return new JsonResult(450,"SUCCESS");
+    public JsonResult registe(ObjectAndString<User,String> oas){
+        User user=oas.getFirst();
+        String codeFornt=oas.getSecond();
+        String codeBack=redisService.get(user.getEmail());
+        if(codeBack.equals(codeFornt)){
+            userService.addUser(user);
+            return new JsonResult(450,"SUCCESS");
+        }else {
+            return new JsonResult(200,"Fail");
+        }
     }
     //显示分页用户数据
     @GetMapping("user/page/{pageNum}/{pageSize}")
