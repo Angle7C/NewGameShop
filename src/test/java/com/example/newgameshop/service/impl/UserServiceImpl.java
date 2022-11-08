@@ -15,12 +15,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAll() {
-        return null;
+        return userMapper.findAll();
     }
 
     @Override
     public User findId(Integer id) {
-        return null;
+        return userMapper.findId(id);
     }
 
     @Override
@@ -30,26 +30,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> seekUser(String name) {
-        return null;
+        return userMapper.seekUser(name);
     }
 
     @Override
     public void addUser(User user) {
-
+       userMapper.addUser(user);
     }
 
     @Override
     public void updateUser(User user) {
-
+        userMapper.updateUser(user);
     }
 
     @Override
     public void deleteUser(User user) {
-
+        userMapper.deleteUser(user);
     }
 
     @Override
     public List<User> findPage(Integer size, Integer page) {
-        return null;
+        return userMapper.findPage(size,page);
     }
 }
