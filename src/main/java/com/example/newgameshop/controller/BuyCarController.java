@@ -31,7 +31,7 @@ public class BuyCarController {
             L.add(gameService.findGame(item.getGameId()));
         }
         Map<String,Object> map=new HashMap<>();
-        map.put("message",true);
+//        map.put("message",true);
         map.put("buyCarList",list);
         map.put("gameList",L);
         return new JsonResult("查找成功",map);
