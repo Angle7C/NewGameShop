@@ -9,6 +9,7 @@ import com.example.newgameshop.service.UserService;
 import com.example.newgameshop.untils.UserVerify;
 import com.example.newgameshop.utils.RegisteredEmailUtil;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -78,7 +79,9 @@ public class UserController {
     @GetMapping("user/page/{pageNum}/{pageSize}")
     public JsonResult findAllUser(@PathVariable int pageNum,@PathVariable int pageSize){
         PageHelper.startPage(pageNum,pageSize);
-        return new JsonResult(450,"查询成功",userService.findAll());
+        List<User> userList=userService.findAll();
+        PageInfo<User> pageInfo=new PageInfo<>(userList);
+        return new JsonResult(450,"查询成功",pageInfo);
     }
     //退出登录
     @PostMapping("logout")

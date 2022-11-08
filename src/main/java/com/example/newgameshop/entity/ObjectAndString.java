@@ -1,6 +1,6 @@
 package com.example.newgameshop.entity;
 
-import com.gameshop.entity.User;
+import com.example.newgameshop.entity.User;
 
 public class ObjectAndString<T1,T2> {
     private T1 first;
