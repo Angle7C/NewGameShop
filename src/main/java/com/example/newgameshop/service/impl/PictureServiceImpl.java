@@ -1,5 +1,6 @@
 package com.example.newgameshop.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.example.newgameshop.entity.Picture;
 import com.example.newgameshop.mapper.PictureMapper;
 import com.example.newgameshop.service.PictureService;
@@ -12,8 +13,13 @@ public class PictureServiceImpl implements PictureService {
     @Resource
     private PictureMapper pictureMapper;
     @Override
-    public List<Picture> findGameId(Integer id) {
-        return pictureMapper.findGameId(id);
+    public Picture findGameId(Integer id) {
+        List<Picture> game = pictureMapper.findGameId(id);
+        if(ObjectUtil.isEmpty(game)){
+            return null;
+        }else{
+            return game.get(0);
+        }
     }
 
     @Override

@@ -3,8 +3,10 @@ package com.example.newgameshop.controller;
 import com.example.newgameshop.entity.Game;
 import com.example.newgameshop.entity.JsonResult;
 import com.example.newgameshop.entity.Page;
+import com.example.newgameshop.entity.Picture;
 import com.example.newgameshop.service.BuyCarService;
 import com.example.newgameshop.service.GameService;
+import com.example.newgameshop.service.PictureService;
 import com.example.newgameshop.untils.UserVerify;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,15 +14,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 @RestController
 @Setter(onMethod_ = {@Autowired})
 public class GoodsController {
     private GameService gameService;
+    private PictureService pictureService;
 
     //根据gameId查找游戏
     @GetMapping("/findgame/{gameId}")
@@ -119,8 +119,14 @@ public class GoodsController {
         page.setTotalPages(total);
         System.out.println(page.getPageSize());
         List<Game> gameTypePage = gameService.findGameTypePage(page.getPageSize(), page.getCurrentPage(), bool==""?null:bool,name==""?null:name);
+        List<Picture> pictures=new ArrayList<>();
+        for(Game game:gameTypePage){
+            pictures.add(pictureService.findGameId(game.getGameId()));
+        }
+//        pictureService
         map.put("message",true);
         m.put("array",gameTypePage);
+        m.put("pictures",pictures);
         m.put("page",page);
         map.put("data",m);
         return new JsonResult(450,"查找成功",map);
