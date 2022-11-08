@@ -91,8 +91,10 @@ public class UserController {
     }
     //修改用户
     @PutMapping("user")
-    public JsonResult updateUser(User user){
-        userService.updateUser(user);
+    public JsonResult updateUser(@RequestBody User user){
+        User u=userService.findId(user.getUserId());
+        u.setUserPwd(user.getUserPwd());
+        userService.updateUser(u);
         return new JsonResult(450,"修改成功");
     }
 
@@ -125,7 +127,8 @@ public class UserController {
 //    }
     //删除用户
     @DeleteMapping("user")
-    public JsonResult deleteUser(User user){
+    public JsonResult deleteUser(@RequestBody User user){
+        System.out.println(user.getUserId());
         userService.deleteUser(userService.findId(user.getUserId()));
         return new JsonResult(450,"删除用户成功");
     }
