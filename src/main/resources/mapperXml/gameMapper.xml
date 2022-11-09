@@ -145,5 +145,14 @@
         LIMIT #{param2} ) as a)
         ) as b ) limit #{param1}
     </select>
-
+    <select id="findGameByType" resultMap="GameRM" resultType="Game">
+        select *
+        from game
+        where game_type = #{gameType}
+    </select>
+    <select id="findGameByWord" resultMap="GameRM" resultType="Game">
+        select *
+        from game
+        where game_name like #{word}
+    </select>
 </mapper>

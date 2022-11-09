@@ -18,5 +18,6 @@ public interface GameService {
     default List<Game> findAllZero(){return null;}
     default List<Game> seekNameZero(String Name){return null;}
     default List<Game> orderBy(int size, int page, String gameType,Boolean bool){return null;}
-
+    default List<Game> findGameByType(String type){return null;}
+    default List<Game> findGameByWord(String word){return null;}
 }

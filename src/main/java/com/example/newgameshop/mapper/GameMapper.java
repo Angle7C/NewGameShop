@@ -19,5 +19,6 @@ public interface GameMapper {
     public List<Game> findGameTypePage( int size ,int page,String gameType,String name);
     public List<Game> findGameTypePageZero(int size, int page, String gameType,Boolean bool);
     public List<Game> orderBy(int size, int page, String gameType,Boolean bool);
-
+    public List<Game> findGameByType(String type);
+    public List<Game> findGameByWord(String word);
 }

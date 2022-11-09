@@ -45,8 +45,16 @@ public class GameServiceImpl implements GameService {
         List<Game> gameList=gameMapper.findGameTypePage(size, page, gameType, name);
         return gameList;}
 
+    public List<Game> findGameByType(String type){
+        List<Game> gameList=gameMapper.findGameByType(type);
+        return gameList;}
+
     public List<Game> findGameTypePageZero( int size , int page,String gameType,Boolean bool){
         List<Game> gameList=gameMapper.findGameTypePageZero(size, page, gameType,bool);
+        return gameList;}
+
+    public List<Game> findGameByWord(String word){
+        List<Game> gameList=gameMapper.findGameByWord("%"+word+"%");
         return gameList;}
 
     public List<Game> findAllZero(){

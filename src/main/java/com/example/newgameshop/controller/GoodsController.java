@@ -1,9 +1,6 @@
 package com.example.newgameshop.controller;
 
-import com.example.newgameshop.entity.Game;
-import com.example.newgameshop.entity.JsonResult;
-import com.example.newgameshop.entity.Page;
-import com.example.newgameshop.entity.Picture;
+import com.example.newgameshop.entity.*;
 import com.example.newgameshop.service.BuyCarService;
 import com.example.newgameshop.service.GameService;
 import com.example.newgameshop.service.PictureService;
@@ -85,52 +82,49 @@ public class GoodsController {
     }
 
     //游戏类型，名字，页数分页显示
-    @PostMapping("/gamepage")
-    public JsonResult gamePage(@RequestBody Map<String,Object> t){
-        Map<String,Object> map=new TreeMap<String,Object>();
-        Object bool=t.get("type");
-        Integer size=(Integer) t.get("size");
-        Object name=t.get("Name");
-        List<Game> gameTypePage = gameService.findPageSize( (String) bool,(String) name);
-        map.put("message",true);
-        Page page=new Page();
-        page.setCurrentPage(1);
-        page.setPageSize(size);
-        page.setTotalPages(gameTypePage.size()%size==0?gameTypePage.size()/size:gameTypePage.size()/size+1);
-        System.out.println(gameTypePage.size());
-        map.put("data",page);
-        return new JsonResult(450,"查找成功",map);
+    @GetMapping("/gamepage/{pageNum}/{pageSize}")
+    @ResponseBody
+    public JsonResult gamePage(@PathVariable Integer pageNum,@PathVariable Integer pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<Game> gameList=gameService.findAll();
+        List<Picture> pictures=new ArrayList<>();
+        for(Game game:gameList){
+            pictures.add(pictureService.findGameId(game.getGameId()));
+        }
+        PageInfo<Game> gamePageInfo=new PageInfo<>(gameList);
+        ObjectAndString<Game,Picture> gamePageInfoAndPicture=new ObjectAndString(gamePageInfo,pictures);
+        return new JsonResult(450,"查找成功",gamePageInfoAndPicture);
     }
 
     //根据游戏类型分页查找游戏
-    @PostMapping ("/gametypepage")
+    @GetMapping ("/gametypepages/{type}/{pageNum}/{pageSize}")
     @ResponseBody
-    public JsonResult gameTypePage(@RequestBody HashMap<String, Object> t){
-        Map<String,Object> map=new TreeMap<>();
-        Map<String,Object> m=new TreeMap<>();
-        String bool=(String)t.get("type");
-        String name=(String)t.get("Name");
-        Integer current= (Integer )t.get("currentPage");
-        Integer size= (Integer )t.get("pageSize");
-        System.out.println(t);
-        Integer total= (Integer )t.get("totalPages");
-        Page page=new Page();
-        page.setCurrentPage(current);
-        page.setPageSize(size);
-        page.setTotalPages(total);
-        System.out.println(page.getPageSize());
-        List<Game> gameTypePage = gameService.findGameTypePage(page.getPageSize(), page.getCurrentPage(), bool==""?null:bool,name==""?null:name);
+    public JsonResult gameTypePage(@PathVariable String type,@PathVariable Integer pageNum,@PathVariable Integer pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<Game> gameList=gameService.findGameByType(type);
         List<Picture> pictures=new ArrayList<>();
-        for(Game game:gameTypePage){
+        for(Game game:gameList){
             pictures.add(pictureService.findGameId(game.getGameId()));
         }
-//        pictureService
-        map.put("message",true);
-        m.put("array",gameTypePage);
-        m.put("pictures",pictures);
-        m.put("page",page);
-        map.put("data",m);
-        return new JsonResult(450,"查找成功",map);
+        PageInfo<Game> gamePageInfo=new PageInfo<>(gameList);
+        ObjectAndString<Game,Picture> gamePageInfoAndPicture=new ObjectAndString(gamePageInfo,pictures);
+        System.out.println(gamePageInfoAndPicture);
+        return new JsonResult(450,"查找成功",gamePageInfoAndPicture);
+    }
+    //根据搜索查找游戏
+    @GetMapping ("/gamewordpages/{word}/{pageNum}/{pageSize}")
+    @ResponseBody
+    public JsonResult gameWordPage(@PathVariable String word,@PathVariable Integer pageNum,@PathVariable Integer pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<Game> gameList=gameService.findGameByWord(word);
+        List<Picture> pictures=new ArrayList<>();
+        for(Game game:gameList){
+            pictures.add(pictureService.findGameId(game.getGameId()));
+        }
+        PageInfo<Game> gamePageInfo=new PageInfo<>(gameList);
+        ObjectAndString<Game,Picture> gamePageInfoAndPicture=new ObjectAndString(gamePageInfo,pictures);
+        System.out.println(gamePageInfoAndPicture);
+        return new JsonResult(450,"查找成功",gamePageInfoAndPicture);
     }
 
     //审核游戏
