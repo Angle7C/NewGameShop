@@ -15,11 +15,13 @@
     </select>
 
     <insert id="addScore" parameterType="Score" useGeneratedKeys="true" keyProperty="scoreId">
-        insert into score(game_id,game_store) value(#{param1.gameId},#{param2.gameStore})
+        insert into score(game_id,game_store) value(#{param1.gameId}, #{param2.gameStore})
     </insert>
 
     <update id="updateScore" >
         update score set game_store=#{gameStore} where score_id=#{scoreId}
     </update>
-
+    <select id="findScoreOnly" >
+        select * from score where  game_id=#{param2} and user_id=#{param1}
+    </select>
 </mapper>

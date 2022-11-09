@@ -60,7 +60,7 @@ public class FileUploadController {
         InputStream response = uploadService.downloadFile(game.getPath(), "game");
         BufferedInputStream inputStream=new BufferedInputStream(response);
         ResponseEntity.BodyBuilder builder = ResponseEntity.ok();
-        builder.contentLength(response.available());
+        builder.contentLength(inputStream.available());
         builder.contentType(MediaType.APPLICATION_OCTET_STREAM);
         String filename = URLEncoder.encode(game.getPath(), "UTF-8");
         if (userAgent.indexOf("MSIE") > 0) {
