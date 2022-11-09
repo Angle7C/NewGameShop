@@ -46,14 +46,32 @@ public class BuyCarController {
     @ResponseBody
     public JsonResult addGameNumberInBuyCar(@PathVariable Integer gameId, HttpSession session){
         Integer userId= UserVerify.verify(session);
-        User user=new User();
-        user.setUserId(userId);
-        Game game=gameService.findGame(gameId);
-        BuyCar buyCar=new BuyCar();
-        buyCar.setGameId(game.getGameId());
-        buyCar.setUserId(userId);
-        buyCarService.addBuyCar(buyCar);
-        return new JsonResult(450,"加入购物车成功");
+        if(userId!=null){
+            List<BuyCar> buyCarList=buyCarService.findUserId(userId);
+            Boolean flag=true;
+            for (BuyCar buyCar:buyCarList){
+                if(buyCar.getGameId().equals(gameId)){
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag==true){
+                User user=new User();
+                user.setUserId(userId);
+                Game game=gameService.findGame(gameId);
+                BuyCar buyCar=new BuyCar();
+                buyCar.setGameId(game.getGameId());
+                buyCar.setUserId(userId);
+                buyCarService.addBuyCar(buyCar);
+                return new JsonResult(450,"加入购物车成功");
+            }else{
+                return new JsonResult(250,"已加入购物车");
+            }
+        }else {
+            return new JsonResult(200,"未登录");
+        }
+
+
     }
 
     //删除购物车单个商品
