@@ -24,7 +24,7 @@
     </select>
 
     <select id="seekUser" resultType="User" resultMap="userRM">
-        select * from user where user_name like %#{userName}%
+        select * from user where user_name like #{userName}
     </select>
 
     <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="userId">

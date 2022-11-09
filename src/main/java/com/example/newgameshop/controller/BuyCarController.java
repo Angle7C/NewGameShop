@@ -107,13 +107,13 @@ public class BuyCarController {
         User user=userService.findId(userId);
         Game game=gameService.findGame(gameId);
         if(user.getMoney()<game.getGameValue()){
-            return new JsonResult(450,"没钱拉");
+            return new JsonResult(200,"没钱拉");
         }else{
             user.setMoney(user.getMoney()-game.getGameValue());
             buyCarService.deleteBuyCar(buyCar);
             indentService.addIndent(new Indent(userId,0,gameId,game.getGameValue(),new Date()));
             userService.updateUser(user);
-            return new JsonResult("购买成功",false);
+            return new JsonResult(450,"购买成功",false);
         }
 
     }
