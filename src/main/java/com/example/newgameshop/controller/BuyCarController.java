@@ -1,6 +1,9 @@
 package com.example.newgameshop.controller;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.example.newgameshop.entity.*;
+import com.example.newgameshop.exception.MyException;
+import com.example.newgameshop.exception.enums.ErrorEnums;
 import com.example.newgameshop.service.BuyCarService;
 import com.example.newgameshop.service.GameService;
 import com.example.newgameshop.service.IndentService;
@@ -8,6 +11,7 @@ import com.example.newgameshop.service.UserService;
 import com.example.newgameshop.untils.UserVerify;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -74,9 +78,13 @@ public class BuyCarController {
 
     //批量删除购物车商品
     @DeleteMapping("/deletegamenumberlist")
-    public JsonResult deleteBuyCarList(@ModelAttribute List<Integer> buyCarIdList,HttpSession session){
+    public JsonResult deleteBuyCarList(@RequestBody List<Integer> buyCarIdList,HttpSession session){
         BuyCar buyCar=new BuyCar();
         Boolean flag=false;
+        Integer userId = UserVerify.verify(session);
+        if(ObjectUtil.isEmpty(userId)){
+            throw  new MyException(ErrorEnums.CHECK_ERROR);
+        }
         for (Integer id : buyCarIdList) {
             buyCar.setBuyCarId(id);
             flag=buyCarService.deleteBuyCar(buyCar);
@@ -93,15 +101,20 @@ public class BuyCarController {
 
     //购买游戏
     @PostMapping("/buyGame/{buyCarId}")
+    @Transactional
     public JsonResult buyCarToIndent(@PathVariable Integer buyCarId , HttpSession session){
         Map<String,Object> map=new TreeMap<String, Object>();
+        Integer userId = UserVerify.verify(session);
+        if(ObjectUtil.isEmpty(userId)){
+           throw  new MyException(ErrorEnums.CHECK_ERROR);
+        }
         BuyCar buyCar=buyCarService.findBuyCar(buyCarId);
         Integer gameId = buyCar.getGameId();
-        Integer userId = UserVerify.verify(session);
+
         User user=userService.findId(userId);
         Game game=gameService.findGame(gameId);
         if(user.getMoney()<game.getGameValue()){
-            return new JsonResult("购买失败，余额不足",false);
+            return new JsonResult(450,"没钱拉");
         }else{
             user.setMoney(user.getMoney()-game.getGameValue());
             buyCarService.deleteBuyCar(buyCar);

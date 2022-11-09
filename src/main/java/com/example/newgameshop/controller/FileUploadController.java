@@ -54,7 +54,7 @@ public class FileUploadController {
         gameService.updateGame(game);
         return new JsonResult<>(450,"上传成功");
     }
-    @RequestMapping(value="/download/{gameId}")
+    @GetMapping(value="/download/{gameId}")
     public ResponseEntity<byte[]> download(HttpServletRequest request, @PathVariable("gameId") Integer gameId, @RequestHeader("User-Agent") String userAgent) throws IOException {
         // 下载文件的路径
         Game game = gameService.findGame(gameId);
