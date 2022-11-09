@@ -2,10 +2,7 @@ package com.example.newgameshop.controller;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.example.newgameshop.entity.*;
-import com.example.newgameshop.service.BuyCarService;
-import com.example.newgameshop.service.GameService;
-import com.example.newgameshop.service.IndentService;
-import com.example.newgameshop.service.UserService;
+import com.example.newgameshop.service.*;
 import com.example.newgameshop.untils.UserVerify;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +20,7 @@ public class IndentController {
     private GameService gameService;
     private BuyCarService buyCarService;
     private UserService userService;
+    private PictureService pictureService;
 
     //提交订单，完成购买
     @GetMapping("/submitindent/{gameId}")
@@ -76,14 +74,17 @@ public class IndentController {
         Map<String,Object> map=new TreeMap<String,Object>();
         List<Indent> L = indentService.findUserId(userId);
         List<Integer> orderIdList=new ArrayList<Integer>();
+        List<Picture> pictureList=new ArrayList<>();
         List<Game> gameIdList=new ArrayList<Game>();
 
         for(Indent item:L){
             orderIdList.add(item.getOrderId());
             gameIdList.add(gameService.findGame(item.getGameId()));
+            pictureList.add(pictureService.findGameId(item.getGameId()));
         }
-        map.put("orderIdList",orderIdList);
-        map.put("gameIdList",gameIdList);
+        map.put("gameList",gameIdList);
+        map.put("orderList",orderIdList);
+        map.put("pictureList",pictureList);
         return new JsonResult("查找成功",map);
     }
 

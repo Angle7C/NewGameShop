@@ -45,22 +45,22 @@ public class BuyCarController {
     @PostMapping("/addgamenumber/{gameId}")
     public JsonResult addGameNumberInBuyCar(@PathVariable Integer gameId, HttpSession session){
         Integer userId= UserVerify.verify(session);
-        User user=new User();
-        Game game= new Game();
-        user.setUserId(userId);
-        game=gameService.findGame(gameId);
+        if(ObjectUtil.isEmpty(userId)){
+            throw new MyException(ErrorEnums.LOGIN_ERROR);
+        }
+        Game game=gameService.findGame(gameId);
         Map<String,Object> map=new HashMap<>();
         BuyCar buyCar=new BuyCar();
-        buyCar.setGameId(game.getGameId());
-        buyCar.setUserId(userId);
         if(game==null){
             map.put("message",false);
             map.put("data","没有游戏");
         }
+        buyCar.setGameId(game.getGameId());
+        buyCar.setUserId(userId);
         buyCarService.addBuyCar(buyCar);
         map.put("message",true);
         map.put("data",null);
-        return new JsonResult("增加数量成功",map);
+        return new JsonResult("添加购物车成功",map);
     }
 
     //删除购物车单个商品

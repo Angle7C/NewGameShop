@@ -24,12 +24,13 @@ public class GoodsController {
     //根据gameId查找游戏
     @GetMapping("/findgame/{gameId}")
     public JsonResult findGame(@PathVariable Integer gameId, HttpSession session){
-
-        Integer userId= UserVerify.verify(session);
+        Game game=gameService.findGame(gameId);
+        Picture picture=pictureService.findGameId(gameId);
+        Integer userId=UserVerify.verify(session);
         if(userId<0||userId==0){
-          return new JsonResult("message",false);
+          return new JsonResult(200,"message",false);
         }else{
-          return new JsonResult("message",gameService.findGame(gameId));
+          return new JsonResult(450,"message",new ObjectAndString<Game,Picture>(game,picture));
         }
     }
 

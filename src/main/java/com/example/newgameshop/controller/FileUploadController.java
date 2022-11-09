@@ -56,29 +56,20 @@ public class FileUploadController {
     }
     @GetMapping(value="/download/{gameId}")
     public ResponseEntity<byte[]> download(HttpServletRequest request, @PathVariable("gameId") Integer gameId, @RequestHeader("User-Agent") String userAgent) throws IOException {
-        // 下载文件的路径
         Game game = gameService.findGame(gameId);
-        // 构建File
-//        File file = new File(path);
-        // ok表示http请求中状态码200
         InputStream response = uploadService.downloadFile(game.getPath(), "game");
-
         BufferedInputStream inputStream=new BufferedInputStream(response);
         ResponseEntity.BodyBuilder builder = ResponseEntity.ok();
-        // 内容长度
         builder.contentLength(response.available());
-        // application/octet-stream 二进制数据流（最常见的文件下载）
         builder.contentType(MediaType.APPLICATION_OCTET_STREAM);
-        // 使用URLEncoding.decode对文件名进行解码
         String filename = URLEncoder.encode(game.getPath(), "UTF-8");
-        // 根据浏览器类型，决定处理方式
         if (userAgent.indexOf("MSIE") > 0) {
             builder.header("Content-Disposition", "attachment; filename=" + filename);
         } else {
             builder.header("Content-Disposition", "attacher; filename*=UTF-8''" + filename);
         }
-        return builder.body(readAll(inputStream));
-
+        builder.body(readAll(inputStream));
+        return builder.build();
     }
     @GetMapping("/findfile/{gameId}")
     public JsonResult<?> showPhoto(Integer gameId,HttpServletResponse response){
