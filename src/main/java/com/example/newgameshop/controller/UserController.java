@@ -65,7 +65,7 @@ public class UserController {
         String codeFornt=oas.getSecond();
         if(registeredEmailUtil.checkCode(user.getEmail(),codeFornt)){
             userService.addUser(user);
-            return new JsonResult("450","注册成功");
+            return new JsonResult(450,"注册成功");
 
         }else{
             return new JsonResult(200,"系统异常");
