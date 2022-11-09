@@ -86,13 +86,22 @@ public class UserController {
         session.removeAttribute("userId");
         return new JsonResult(450,"退出登录成功");
     }
-    //修改用户
-    @PutMapping("user")
+    //修改用户（前台）
+    @PutMapping("userfront")
     public JsonResult updateUser(@RequestBody User user){
         User u=userService.findId(user.getUserId());
         if(!u.getUserPwd().equals(user.getEmail())){
             return new JsonResult("200","密码不一致");
         }
+        u.setUserPwd(user.getUserPwd());
+        u.setUserName(user.getUserName());
+        userService.updateUser(u);
+        return new JsonResult(450,"修改成功");
+    }
+    //修改用户(后台)
+    @PutMapping("user")
+    public JsonResult updateUsereFront(@RequestBody User user){
+        User u= userService.findId(user.getUserId());
         u.setUserPwd(user.getUserPwd());
         userService.updateUser(u);
         return new JsonResult(450,"修改成功");
@@ -128,77 +137,5 @@ public class UserController {
         userService.updateUser(user);
         return new JsonResult(450,"充值成功");
     }
-//    @RequestMapping("/deleteuser.html")
-//    @ResponseBody
-//    public Map<String,Object> deleteUser(@RequestParam("userId") Integer userId, HttpSession session){
-//        Map<String,Object> map=new TreeMap<>();
-//        User user=new User();
-//        if(userId==null) {
-//            map.put("message",false);
-//            map.put("data","不能为空");
-//            return map;
-//        }
-//        map.put("message",true);
-//        user.setUserId(userId);
-//        userService.deleteUser(user);
-//        map.put("data","删除成功");
-//        return map;
-//    }
-//    @RequestMapping("adminupdatauser.html")
-//    @ResponseBody
-//    @Transactional
-//    public Map<String ,Object> updateAdminUser(@RequestBody User user,HttpSession session){
-//        Map<String,Object> map=new HashMap<String,Object>();
-//        try {
-//            User t=userService.findId(user.getUserId());
-//            t.setUserPwd(MD5.toMD5(user.getUserPwd()));
-//            userService.updateUser(t);
-//            map.put("message", true);
-//            map.put("data", "修改成功");
-//        }catch (Exception e){
-//            map.put("message", false);
-//            map.put("data", "用户不存在");
-//        }
-//        return map;
-//    }
-//    @RequestMapping("adminupdeleteuser.html")
-//    @ResponseBody
-//    @Transactional
-//    public Map<String ,Object> deleteAdminUser(@RequestBody User user,HttpSession session){
-//        Map<String,Object> map=new HashMap<String,Object>();
-//        Integer userId=user.getUserId();
-//        User t=userService.findId(user.getUserId());
-//        t.setUserName(user.getUserName());
-//        t.setUserPwd(MD5.toMD5(user.getUserPwd()));
-//        userService.updateUser(t);
-//        map.put("message",true);
-//        map.put("data",t);
-//        return map;
-//    }
-//
-//    @RequestMapping("adminseekeuser.html")
-//    @ResponseBody
-//    @Transactional
-//    public Map<String ,Object> seekAdminUser(@RequestParam("name") String name,HttpSession session){
-//        Map<String,Object> map=new HashMap<String,Object>();
-//        User user=new User();
-//        List<User> users = userService.seekUser(name);
-//        map.put("message",true);
-//        map.put("data",users);
-//        return map;
-//    }
-//    @RequestMapping("/charge.html")
-//    @ResponseBody
-//    @Transactional
-//    public Map<String ,Object> charge(@RequestParam Double money, HttpSession session) {
-//        Map<String, Object> map = new HashMap<>();
-//        User user = new User();
-//        Integer id = UserVerify.verify(session);
-//        User users = userService.findId(id);
-//        users.setMoney(users.getMoney()+money);
-//        userService.updateUser(users);
-//        map.put("message", true);
-//        map.put("data", "成功");
-//        return map;
-//    }
+
 }
