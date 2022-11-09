@@ -44,6 +44,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUserRole(User user) {
+        userMapper.updateUserRole(user);
+    }
+
+    @Override
     public void deleteUser(User user) {
         userMapper.deleteUser(user);
     }

@@ -98,12 +98,17 @@ public class UserController {
         userService.updateUser(u);
         return new JsonResult(450,"修改成功");
     }
-    //修改用户(后台)
+    //修改用户权限(后台)
     @PutMapping("user")
     public JsonResult updateUsereFront(@RequestBody User user){
         User u= userService.findId(user.getUserId());
-        u.setUserPwd(user.getUserPwd());
-        userService.updateUser(u);
+        System.out.println(user.getUserPwd());
+        if(user.getUserPwd().equals("admin")){
+            u.setRole(1);
+        }else{
+            u.setRole(0);
+        }
+        userService.updateUserRole(u);
         return new JsonResult(450,"修改成功");
     }
     //删除用户
