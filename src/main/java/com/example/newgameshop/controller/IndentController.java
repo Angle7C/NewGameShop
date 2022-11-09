@@ -56,13 +56,13 @@ public class IndentController {
         Date A=sdf.parse(sdf.format(new Date()));
         Date B=sdf.parse(sdf.format(indent.getDate()));
         if((A.getTime()-B.getTime())/(1000*3600*24)>3) {
-            return new JsonResult("无法退款，超过3天",false);
+            return new JsonResult(200,"无法退款，超过3天",false);
         }else {
             indentService.deleteIndent(indent);
             User user=userService.findId(indent.getUserId());
             user.setMoney(user.getMoney()+indent.getValue());
             userService.updateUser(user);
-            return new JsonResult("退款成功",true);
+            return new JsonResult(450,"退款成功",true);
         }
     }
 
