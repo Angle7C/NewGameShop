@@ -8,20 +8,30 @@
         <id property="scoreId" column="score_id"/>
         <id property="gameId" column="game_id"/>
         <id property="gameStore" column="game_store"/>
+        <id property="userId" column="user_id"/>
     </resultMap>
 
-    <select id="findScore" resultMap="ScoreRM"  resultType="Score">
+    <select id="findScoreGame" resultMap="ScoreRM"  resultType="Score">
         select * from score where game_id=#{gameId}
     </select>
-
+    <select id="findScoreOnly" resultMap="ScoreRM"  resultType="Score">
+        select * from score where user_id=#{param1} and game_id=#{param2}
+    </select>
     <insert id="addScore" parameterType="Score" useGeneratedKeys="true" keyProperty="scoreId">
-        insert into score(game_id,game_store) value(#{param1.gameId}, #{param2.gameStore})
+        insert into score(game_id,game_store,user_id) value(#{gameId},#{gameStore},#{userId})
     </insert>
 
     <update id="updateScore" >
         update score set game_store=#{gameStore} where score_id=#{scoreId}
     </update>
-    <select id="findScoreOnly" >
-        select * from score where  game_id=#{param2} and user_id=#{param1}
-    </select>
+    <update id="deleteScoreGame" >
+        delete from score where game_id=#{gameId}
+    </update>
+    <update id="deleteScoreId" >
+        delete from score where score_id=#{scoreId}
+    </update>
+    <update id="deleteGameId" >
+        delete from score where game_id=#{gameId}
+    </update>
+
 </mapper>

@@ -1,5 +1,6 @@
 package com.example.newgameshop.controller;
 
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.example.newgameshop.entity.FileDomain;
 import com.example.newgameshop.entity.Game;
@@ -55,21 +56,22 @@ public class FileUploadController {
         return new JsonResult<>(450,"上传成功");
     }
     @GetMapping(value="/download/{gameId}")
-    public ResponseEntity<byte[]> download(HttpServletRequest request, @PathVariable("gameId") Integer gameId, @RequestHeader("User-Agent") String userAgent) throws IOException {
+    public void download(HttpServletResponse response, @PathVariable("gameId") Integer gameId, @RequestHeader("User-Agent") String userAgent) throws IOException {
         Game game = gameService.findGame(gameId);
-        InputStream response = uploadService.downloadFile(game.getPath(), "game");
-        BufferedInputStream inputStream=new BufferedInputStream(response);
-        ResponseEntity.BodyBuilder builder = ResponseEntity.ok();
-        builder.contentLength(inputStream.available());
-        builder.contentType(MediaType.APPLICATION_OCTET_STREAM);
+        InputStream inputStream = uploadService.downloadFile(game.getPath(), "game");
+//        ResponseEntity.BodyBuilder builder = ResponseEntity.ok();
+//        builder.contentLength(inputStream.available());
+//        builder.contentType(MediaType.APPLICATION_OCTET_STREAM);
         String filename = URLEncoder.encode(game.getPath(), "UTF-8");
-        if (userAgent.indexOf("MSIE") > 0) {
-            builder.header("Content-Disposition", "attachment; filename=" + filename);
-        } else {
-            builder.header("Content-Disposition", "attacher; filename*=UTF-8''" + filename);
-        }
-        builder.body(readAll(inputStream));
-        return builder.build();
+//        if (userAgent.indexOf("MSIE") > 0) {
+//            builder.header("Content-Disposition", "attachment; filename=" + filename);
+//        } else {
+//            builder.header("Content-Disposition", "attacher; filename*=UTF-8''" + filename);
+//        }
+        response.setHeader("Content-Disposition", "attachment; filename=" + filename);
+//        builder.body(readAll(inputStream));
+        IoUtil.copy(inputStream,response.getOutputStream());
+        return;
     }
     @GetMapping("/findfile/{gameId}")
     public JsonResult<?> showPhoto(Integer gameId,HttpServletResponse response){
