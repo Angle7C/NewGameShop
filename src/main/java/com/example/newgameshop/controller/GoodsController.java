@@ -89,7 +89,6 @@ public class GoodsController {
     public JsonResult gamePage(@RequestBody Map<String,Object> t){
         Map<String,Object> map=new TreeMap<String,Object>();
         Object bool=t.get("type");
-        Object sizes= t.get("size");
         Integer size=(Integer) t.get("size");
         Object name=t.get("Name");
         List<Game> gameTypePage = gameService.findPageSize( (String) bool,(String) name);

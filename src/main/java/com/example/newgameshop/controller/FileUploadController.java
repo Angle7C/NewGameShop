@@ -83,14 +83,12 @@ public class FileUploadController {
     @GetMapping("/findfile/{gameId}")
     public JsonResult<?> showPhoto(Integer gameId,HttpServletResponse response){
 
-        List<Picture> pictures=pictureService.findGameId(gameId);
+        Picture pictures=pictureService.findGameId(gameId);
         JsonResult<String> jsonResult=new JsonResult<>();
 
         List<String> list=new ArrayList<>();
 
-        for(Picture p:pictures){
-            list.add(header+p.getPath());
-        }
+            list.add(header+pictures.getPath());
         jsonResult.setDatas(list);
         return jsonResult;
     }
