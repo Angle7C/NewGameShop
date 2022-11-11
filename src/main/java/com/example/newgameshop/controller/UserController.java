@@ -51,7 +51,6 @@ public class UserController {
     @GetMapping("islogin")
     public JsonResult isLogin(HttpSession session){
         if(ObjectUtil.isEmpty(UserVerify.verify(session))){
-
             return new JsonResult(200,"未登录");
         }else {
             User user = userService.findId(UserVerify.verify(session));
