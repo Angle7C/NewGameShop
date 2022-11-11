@@ -134,8 +134,7 @@ public class UserController {
     public JsonResult charge(@PathVariable Double money,HttpSession session){
         User user=userService.findId(UserVerify.verify(session));
         if(money<0){
-            return new JsonResult(200,"傻逼");
-
+            return new JsonResult(200,"输入金额错误");
         }
         user.setMoney(user.getMoney()+money);
         userService.updateUser(user);
