@@ -29,7 +29,7 @@ public class RedisUtil {
             map.put(key,value);
     }
     public String getValue(String key){
-        return map.get(key);
+        return map.remove(key);
 //       return redis.opsForValue().get(key);
     }
 }

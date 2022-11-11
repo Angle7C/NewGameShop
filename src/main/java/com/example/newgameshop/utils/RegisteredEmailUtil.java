@@ -2,6 +2,7 @@ package com.example.newgameshop.utils;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Validator;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.mail.MailAccount;
 import cn.hutool.extra.mail.MailUtil;
 import com.example.newgameshop.exception.MyException;
@@ -43,7 +44,9 @@ public class RegisteredEmailUtil {
         return true;
     }
     public boolean checkCode(String to,String code){
-        return code.equals(redisUtil.getValue(to));
+        String value = redisUtil.getValue(to);
+        if(ObjectUtil.isEmpty(value)) throw new MyException(ErrorEnums.CHECK_ERROR);
+        return code.equals(value);
     }
     public   String getCode(){
         //生成六位验证码
